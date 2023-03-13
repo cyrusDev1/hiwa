@@ -7,6 +7,6 @@ module.exports = (req, res, next) => {
     req.user = decodeToken;
     next();
   } catch (error) {
-    res.status(400).json({ error }).end();
+    res.status(400).json({ error: 'Authentification failed' }).end();
   }
 };

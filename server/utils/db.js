@@ -36,7 +36,19 @@ class DBClient {
   async getUser (email, password) {
     this.myDB = this.client.db();
     const users = this.myDB.collection('users');
-    return users.findOne({ email, password });
+    return users.findOne({ $and: [{ email }, { password }] });
+  }
+
+  async createStory (story) {
+    this.myDB = this.client.db();
+    const stories = this.myDB.collection('stories');
+    return stories.insertOne(story);
+  }
+
+  async getAllStories () {
+    this.myDB = this.client.db();
+    const stories = this.myDB.collection('stories').find().toArray();
+    return stories;
   }
 }
 
