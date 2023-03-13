@@ -18,6 +18,7 @@
     "bull": "^3.16.0",
     "chai-http": "^4.3.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^3.5.9",
     "redis": "^2.8.0",
     "sha1": "^1.1.1",
