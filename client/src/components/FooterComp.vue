@@ -36,6 +36,8 @@
     width: 100%;
     margin: 0;
     border-top: 3px solid #CCCCCC;
+    z-index: 1;
+
 }
 
 #menu .menu a {

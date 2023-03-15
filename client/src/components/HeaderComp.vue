@@ -26,6 +26,8 @@
     width: 100%;
     margin: 0;
     border-bottom: 3px solid #CCCCCC;
+    z-index: 1;
+
 }
 
 #header .header div{

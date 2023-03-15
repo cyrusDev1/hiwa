@@ -10,6 +10,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+    "@ckeditor/ckeditor5-vue": "^4.0.1",
     "@formkit/vue": "^1.0.0-beta.15",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-brands-svg-icons": "^6.3.0",
