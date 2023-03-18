@@ -1,24 +1,24 @@
 <template>
-    
-    <div id="story">
+    {{    }}
+    <div v-if="!this.Loading" id="story">
         <i class="fa fa-arrow-left prev mb-3"></i>
 
         <div class="card">
             
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <a href="#" class="type">Romance</a>
+                    <a href="#" class="type">{{ Story.type }}</a>
                     <a href="#"><i class="fa fa-heart"></i></a>
                 </div>
-                <p class="info-1"><span><i class="fa fa-calendar"></i>11 Avril 2023</span>
-                    <span class="span"><i class="fa fa-clock"></i>8 minutes de lecture</span>
+                <p class="info-1"  ><span><i class="fa fa-calendar"></i>{{ Story.datePost.split(', ')[0] }}</span>
+                    <span class="span"><i class="fa fa-clock"></i>{{ Story.timeRead }} minutes de lecture</span>
                 </p>
-                <RouterLink to="comments" class="comment"><i class="fa fa-comment"></i> Commentaires</RouterLink>
-                <p class="info"><span>45<i class="fa fa-eye"></i></span>
-                    <span class="span">89<i class="fa fa-heart"></i></span>
-                    <span class="span">22<i class="fa fa-comments"></i></span></p>
-                <h5 class="card-title  mt-4">Alice au pays des merveilles</h5>
-                <p class="card-text">Qui savait que prendre une bouchée d'un nouveau plat spécial mensuel vous donnerait envie d'un autre type de viande, aussi qui aurait deviné qu'être végétarien ou végétalien sauverait votre peau de la pourriture, mais c'est à vous de vous sauver des envies-vivants Z de votre cerveau.</p>
+                <RouterLink :to="{path: this.$route.fullPath + '/comments'}" class="comment"><i class="fa fa-comment"></i> Commentaires</RouterLink>
+                <p class="info"><span>{{ Story.views }}<i class="fa fa-eye"></i></span>
+                    <span class="span">{{ Story.love }}<i class="fa fa-heart"></i></span>
+                    <span class="span">{{  Story.comments.length }}<i class="fa fa-comments"></i></span></p>
+                <h5 class="card-title  mt-4">{{ Story.title }}</h5>
+                <p class="card-text" v-html="Story.content"></p>
                 
             </div>
         </div>
@@ -27,7 +27,42 @@
 </template>
 
 <script>
+import req from '../store'
 
+export default{
+    props: ['storyPath'],
+    data(){
+        return{
+            Story: {},
+            Loading: true
+        }
+    },
+    methods: {
+        getOneStory(){
+            console.log(this.$route.fullPath)
+            req.get(this.$route.fullPath)
+                .then(response => {
+                    this.Story = response.data
+                    this.Loading = false
+                    console.log(this.Story)
+                    this.readTime()
+                }).catch(error => {
+                    console.log(error.response)
+                });
+        },
+
+        readTime(){
+            const content = this.Story.content.replace("\\n", " ")
+            const numberWord = content.split(" ").length;
+            const timeRead = (numberWord / 150)
+            this.Story.timeRead = Math.round(timeRead) === 0 ? 1 : Math.round(timeRead)
+        }
+    },
+    created() {
+        this.getOneStory()
+
+    }
+}
 </script>
 
 <style>
@@ -56,6 +91,7 @@
 #story .card-body .info-1{
     margin-top: 10px;
     font-size: 13px;
+white-space:pre-wrap;
 }
 
 #story .card-body .info-1 .span{

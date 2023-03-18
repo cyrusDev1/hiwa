@@ -12,29 +12,75 @@
             </div>
         </div>
         <div class="comments">
-            <div class="comment">
-                <p>J'aime bien</p>
+            <div v-for="comment in Comments" class="comment">
+                <p class="p">{{ comment }}</p>
             </div>
-            <div class="comment">
-                <p>J'aime bien</p>
-            </div>
-            <div class="comment">
-                <p>J'aime bien</p>
-            </div>
+            
         </div>
         <div class="foot">
-            <form>
+           
                 <div>
-                    <input type="text" placeholder="Laisser un commentatire">
-                    <button type="submit"><i class="fa fa-send"></i></button>
+                    <input type="text" v-model="commentText" placeholder="Laisser un commentatire">
+                    <a @click="postComment()"><i class="fa fa-send"></i></a>
                 </div>
-            </form>
+            
         </div>
     </div>
 </template>
 
 <script>
+import req from '../store'
 
+export default{
+    props: ['storyPath'],
+    data(){
+        return{
+            Comments: [],
+            Loading: true,
+            commentText: ''
+        }
+    },
+    methods: {
+        getComments(){
+            
+            req.get(this.$route.fullPath)
+                .then(response => {
+                    this.Comments = response.data.reverse()
+                    console.log(this.Comments)
+                }).catch(error => {
+                    console.log(error.response)
+                });
+        },
+        postComment(){
+            const value = {
+                idStory: this.$route.params.id,
+                comment: this.commentText,
+            }
+
+            req({
+                method: 'post',
+                url: '/comment',
+                data: value
+            })
+                .then(response => {
+                    console.log(response.data[0]);
+                    this.Comments = response.data.reverse()
+                })
+                .catch(error => {
+                    if (error.response) {
+                        console.log(error.response);
+                        
+                    }
+                })
+                this.commentText = "";
+
+        }
+
+    },
+    created() {
+        this.getComments()
+    }
+}
 </script>
 
 <style>
@@ -61,14 +107,17 @@
     padding: 8px;
     border-radius: 8px;
     margin-bottom: 15px;
+    
 
 }
+
+
 
 .comments .comment p {
     display: flex;
     align-items: center;
     margin: 0;
-    color: var(--color-four)
+    color: var(--color-four);
 }
 
 .foot {
@@ -85,7 +134,7 @@
 }
 
 
-.foot form input {
+.foot input {
     width: auto;
     border: none;
     outline: none;
@@ -98,9 +147,7 @@
 
 }
 
-.foot form button {
-    border: none;
-    outline: none;
+.foot a {
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     background-color: var(--color-one);

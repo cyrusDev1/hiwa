@@ -1,14 +1,14 @@
 <template>
-    <router-link to="/story">
+    <router-link :to="{path: '/story/' + Story._id}">
     <div id="story-card">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Alice au pays des merveilles</h5>
-                <p class="card-text">Qui savait que prendre une bouchée d'un nouveau plat spécial mensuel vous donnerait envie d'un autre type de viande, aussi qui aurait deviné qu'être végétarien ou végétalien sauverait votre peau de la pourriture, mais c'est à vous de vous sauver des envies-vivants Z de votre cerveau.</p>
-                <a href="#" class="type">Romance</a>
-                <p class="info"><span>45<i class="fa fa-eye"></i></span>
-                    <span class="span">89<i class="fa fa-heart"></i></span>
-                    <span class="span">22<i class="fa fa-comments"></i></span></p>
+                <h5 class="card-title">{{ Story.title }}</h5>
+                <p class="card-text">{{ Story.content.replace(/<\/?[^>]+(>|$)/gi, " ") }}</p>
+                <a href="#" class="type">{{ Story.type }}</a>
+                <p class="info"><span>{{ Story.views }}<i class="fa fa-eye"></i></span>
+                    <span class="span">{{ Story.love }}<i class="fa fa-heart"></i></span>
+                    <span class="span">{{  Story.comments.length }}<i class="fa fa-comments"></i></span></p>
             </div>
         </div>
     </div>
@@ -16,7 +16,22 @@
 </template>
 
 <script>
-
+export default{
+    props: [
+        "Story"
+    ],
+    data(){
+        return{
+            
+        }
+    },
+    methods: {
+        lengthComment(){
+            const arr = Array.from(this.Story.comments, x => x).length;
+            return arr.length;
+        }
+    }
+}
 </script>
 
 <style>

@@ -4,7 +4,7 @@
     <div class="home">
       <div class="title">Découvrir: Des milliers d'histoires gratuites en ligne<br><hr></div>
       
-      <StoryCard></StoryCard> <StoryCard></StoryCard>
+      <StoryCard v-for="story in AllStories.reverse()" :Story="story"></StoryCard>
  
     </div>
     <FooterComp/>
@@ -15,6 +15,7 @@
 import HeaderComp from '../components/HeaderComp.vue'
 import FooterComp from '../components/FooterComp.vue'
 import StoryCard from '../components/StoryCard.vue'
+import req from '../store'
 
 export default {
   components: {
@@ -24,11 +25,27 @@ export default {
     },
     data() {
         return {
-            
+          AllStories: []
         };
     },
     mounted(){
       
+    },
+
+    created(){
+      this.getAllStories()
+    },
+
+    methods: {
+        getAllStories(){
+            req.get('/stories')
+                .then(response => {
+                    this.AllStories = response.data
+                    console.log(this.AllStories)
+                }).catch(error => {
+                    console.log(error.response)
+                });
+        }
     }
 }
 </script>

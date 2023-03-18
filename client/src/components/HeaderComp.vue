@@ -4,9 +4,10 @@
             <div class="col-6">
                 <router-link to="/"><span>HIWA</span></router-link>
             </div>
-
             <div class="col-6 auth">
-                <router-link to="/login">Connexion <i class="fa fa-sign-in"></i></router-link>
+                <a @click="checkAuth()">{{ this.checkAuthText }} <i
+                        class="fa fa-sign-out"></i></a>
+                
             </div>
         </div>
     </div>
@@ -14,6 +15,40 @@
 
 <script>
 
+export default {
+    data() {
+        return {
+            checkAuthText: '',
+        }
+    },
+
+    created() {
+        if (this.isLogin()){
+            this.checkAuthText = 'Deconnexion'
+        }else{
+            this.checkAuthText = 'Connexion'
+        }
+    },
+
+    methods: {
+        isLogin() {
+            return this.$cookies.get('token') !== "und" ? true : false
+        },
+        checkAuth(){
+            if (this.isLogin()){
+                this.$cookies.set('token', 'und');
+                this.checkAuthText = 'Connexion'
+                this.$notify({
+                    text: "Déconnexion avec success",
+                    type: 'warn',
+                });
+            }else{
+                this.$router.push('/login')
+            }
+            
+        }
+    }
+}
 </script>
 
 <style>
@@ -30,11 +65,12 @@
 
 }
 
-#header .header div{
+#header .header div {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 #header .header a {
     color: var(--color-four);
     font-size: 15px;
@@ -53,6 +89,7 @@
     padding: 8px;
     color: white;
     border-radius: 6%;
+    cursor: pointer;
 }
 
 #header .header .auth a:hover {

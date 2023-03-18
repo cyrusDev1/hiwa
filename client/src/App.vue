@@ -5,6 +5,7 @@ import { RouterView } from 'vue-router'
 
 <template>
   <RouterView />
+  <notifications position="bottom right"/>
 </template>
 
 <style>

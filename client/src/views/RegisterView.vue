@@ -2,7 +2,7 @@
     
     <div class="register">
         <i class="fa fa-arrow-left prev mb-3"></i>
-        <FormKit type="form" submit-label="S'inscrire" @submit="register(value)" #default="{ value }">
+        <FormKit type="form" submit-label="S'inscrire" @submit="register">
             <h1 class="">S'inscrire</h1>
             <p id="text-align-start">
                 Inscivez-vous sur Hiwa pour publier une histoire
@@ -20,6 +20,7 @@
 <script>
 import req from '../store';
 
+
 export default {
     data() {
         return {
@@ -31,19 +32,29 @@ export default {
     },
 
     methods: {
-        register(value) {
-            console.log(value);
+        register(data) {
+            console.log(data);
             req({
                 method: 'post',
                 url: '/register',
-                data: value
+                data: data
             })
                 .then(response => {
                     console.log(response);
+                    this.$notify({
+                            text: 'Votre compte a été bien crée! Vous pouvez vous connectez!',
+                            type: 'success',
+                            duration: 8000,
+                        });
+                    this.$router.push('/login')
                 })
                 .catch(error => {
                     if (error.response) {
                         console.log(error.response);
+                        this.$notify({
+                            text: error.response.data.error,
+                            type: 'error',
+                        });
                     }
                 })
 

@@ -32,12 +32,12 @@ const router = createRouter({
       component: AboutView
     },
     {
-      path: '/story',
+      path: '/story/:id',
       name: 'story',
       component: StoryView
     },
     {
-      path: '/comments',
+      path: '/story/:id/comments',
       name: 'comments',
       component: CommentsView
     },
