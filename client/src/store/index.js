@@ -1,5 +1,5 @@
 const req = axios.create({
-    baseURL: 'http://localhost:5000',
+  baseURL: 'http://localhost:5000'
 });
 
 export default req;

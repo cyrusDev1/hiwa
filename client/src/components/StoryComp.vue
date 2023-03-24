@@ -1,7 +1,6 @@
 <template>
-    {{    }}
     <div v-if="!this.Loading" id="story">
-        <i class="fa fa-arrow-left prev mb-3"></i>
+        <i class="fa fa-arrow-left prev mb-3" @click="this.$router.push('/')"></i>
 
         <div class="card">
             
@@ -15,8 +14,8 @@
                 </p>
                 <RouterLink :to="{path: this.$route.fullPath + '/comments'}" class="comment"><i class="fa fa-comment"></i> Commentaires</RouterLink>
                 <p class="info"><span>{{ Story.views }}<i class="fa fa-eye"></i></span>
-                    <span class="span">{{ Story.love }}<i class="fa fa-heart"></i></span>
-                    <span class="span">{{  Story.comments.length }}<i class="fa fa-comments"></i></span></p>
+                    <span class="span">{{  Story.comments.length }}<i class="fa fa-comments"></i></span>
+                    </p>
                 <h5 class="card-title  mt-4">{{ Story.title }}</h5>
                 <p class="card-text" v-html="Story.content"></p>
                 

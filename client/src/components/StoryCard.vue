@@ -7,12 +7,14 @@
                 <p class="card-text">{{ Story.content.replace(/<\/?[^>]+(>|$)/gi, " ") }}</p>
                 <a href="#" class="type">{{ Story.type }}</a>
                 <p class="info"><span>{{ Story.views }}<i class="fa fa-eye"></i></span>
-                    <span class="span">{{ Story.love }}<i class="fa fa-heart"></i></span>
-                    <span class="span">{{  Story.comments.length }}<i class="fa fa-comments"></i></span></p>
+                    
+                    <span class="span">{{  Story.comments.length }}<i class="fa fa-comments"></i></span>
+</p>
             </div>
         </div>
     </div>
 </router-link>
+
 </template>
 
 <script>
@@ -22,13 +24,16 @@ export default{
     ],
     data(){
         return{
-            
+            label: "Activer les commentaires"
         }
     },
     methods: {
         lengthComment(){
             const arr = Array.from(this.Story.comments, x => x).length;
             return arr.length;
+        },
+        shouldReceiveNewsletter(){
+            
         }
     }
 }

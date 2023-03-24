@@ -2,7 +2,7 @@
     <div class="comment-section">
         <div class="head">
             <div class="text">
-                <i class="fa fa-arrow-left"></i>
+                <i class="fa fa-arrow-left" @click="this.$router.push(this.$router.options.history.state.back)"></i>
             </div>
             <div>
                 <span> Commentaires</span>
@@ -119,7 +119,9 @@ export default{
     margin: 0;
     color: var(--color-four);
 }
-
+.foot div{
+    width: 100%;
+}
 .foot {
     position: fixed;
     display: flex;
@@ -135,7 +137,7 @@ export default{
 
 
 .foot input {
-    width: auto;
+    width: 97%;
     border: none;
     outline: none;
     border-radius: 15px;

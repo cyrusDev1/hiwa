@@ -5,8 +5,8 @@
       <div class="title">Retrouvez toutes vos histoires publiées<br>
         <hr>
       </div>
+      <StoryCard v-for="story in MyStories.reverse()" :Story="story"></StoryCard>
 
-      <StoryCard></StoryCard>
 
     </div>
     <FooterComp />
@@ -17,6 +17,7 @@
 import HeaderComp from '../components/HeaderComp.vue'
 import FooterComp from '../components/FooterComp.vue'
 import StoryCard from '../components/StoryCard.vue'
+import req from '../store'
 
 export default {
   components: {
@@ -25,13 +26,41 @@ export default {
     StoryCard,
   },
   data() {
-    return {
+        return {
+          MyStories: []
+        };
+    },
+    mounted(){
+      
+    },
 
-    };
-  },
-  mounted() {
+    created(){
+      if (!this.isLogin()) {
+      this.$router.push('/login')
+      this.$notify({
+        text: "Vous devez d'abord vous connecter pour envoyer une histoire",
+        type: 'warn',
+      });
+    }
+      this.getMyStories()
+    },
 
-  }
+    methods: {
+      isLogin() {
+      return this.$cookies.get('token') !== "und" ? true : false
+    },
+        getMyStories(){
+            req.get('/my-stories', {  headers: {
+                  'authorization': "Beaear " + this.$cookies.get('token'),
+                }})
+                .then(response => {
+                    this.MyStories = response.data
+                    console.log(this.MyStories)
+                }).catch(error => {
+                    console.log(error.response)
+                });
+        }
+    }
 }
 </script>
 <style>
