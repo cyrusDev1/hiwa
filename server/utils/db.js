@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { env } from 'process';
-const ObjectId = require('mongodb').ObjectId; 
+const ObjectId = require('mongodb').ObjectId;
 
 class DBClient {
   constructor () {
@@ -52,17 +52,22 @@ class DBClient {
     return stories;
   }
 
-  async getOneStory(id){
-    this.myDB = this.client.db()
-    const story = this.myDB.collection('stories').findOne({_id: new ObjectId(id)})
+  async getOneStory (id) {
+    this.myDB = this.client.db();
+    const story = this.myDB.collection('stories').findOne({ _id: new ObjectId(id) });
     return story;
   }
 
-  async updateDoc(query, newValues){
+  async updateDoc (query, newValues) {
     this.myDB = this.client.db();
-    this.myDB.collection('stories').updateOne(query, newValues)
+    this.myDB.collection('stories').updateOne(query, newValues);
   }
 
+  async getMyStories (id) {
+    this.myDB = this.client.db();
+    const stories = this.myDB.collection('stories').find({ idUser: id }).toArray();
+    return stories;
+  }
 }
 
 const dbClient = new DBClient();
